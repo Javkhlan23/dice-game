@@ -47,16 +47,17 @@ document
   });
 
 // HOLD товчны эвент листенер
-
+roundScore = 0;
 document.querySelector(".btn-hold").addEventListener("click", function () {
   scores[activePlayer] = scores[activePlayer] + roundScore;
 
   //   дэлгэц дээр оноог нь өөрчилнө.
   document.getElementById("score-" + activePlayer).textContent =
     scores[activePlayer];
-
+  // Уг тоглогч хожсон эсэхийг шалгах
   if (scores[activePlayer] >= 20) {
-    document.getElementById("name-" + activePlayer).textContent = "Winner!!!";
+    // Ялагч гэсэн текстийг нэрнийх нь оронд гаргана
+    document.getElementById("name-" + activePlayer).textContent = "WINNER!!!";
     document
       .querySelector(".player-" + activePlayer + "-panel")
       .classList.add("winner");
@@ -64,10 +65,11 @@ document.querySelector(".btn-hold").addEventListener("click", function () {
       .querySelector(".player-" + activePlayer + "-panel")
       .classList.remove("active");
   } else {
+    // тоглогчийн ээлжийг солино.
     switchToNextPlayer();
   }
 });
-
+// тоглогчийн ээлжийг солино.
 function switchToNextPlayer() {
   // Энэ тоглогчийн ээлжиндээ цуглуулсан оноог 0 болгоно.
   roundScore = 0;
@@ -83,3 +85,6 @@ function switchToNextPlayer() {
   // Шоог түр арилгана.
   diceDom.style.display = "none";
 }
+document.querySelector(".btn-new").addEventListener(click, function () {
+  alert(click);
+});
