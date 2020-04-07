@@ -9,23 +9,14 @@ var scores = [0, 0];
 var roundScore = 0;
 
 // шооны алт талаар буусныг хадгалах хувьсагч хэрэгтэй, 1-6 гэсэн утгыг энэ хувьсагчид санамсаргүйгээр үүсгэж өгнө.
-
-var diceNumber = Math.floor(Math.random() * 7);
-
-//  <div class="player-score" id="score-0">43</div>
-
-// window.document.querySelector("#score-0").textContent = dice;
-
-// window.document.querySelector("#score-1").innerHTML = "<em>Yes!<em>";
-
-document.querySelector(".dice").style.display = "none";
-
-document.getElementById("score-0").textContent = "0";
 // програм эхлэхэд бэлтгэе
+document.getElementById("score-0").textContent = "0";
 document.getElementById("score-1").textContent = "0";
 document.getElementById("current-0").textContent = "0";
 document.getElementById("current-1").textContent = "0";
+// Шоог дуудах
 var diceDom = document.querySelector(".dice");
+diceDom.style.display = "none";
 
 // Шоог шидэх эвент листенер
 document
@@ -58,31 +49,23 @@ document
 // HOLD товчны эвент листенер
 
 document.querySelector(".btn-hold").addEventListener("click", function () {
-  // Уг тоглогчийн цуглуулсан ээлжний оноог глобаль оноон дээр нь нэмж өгнө.
-  // if(activePlayer ===0){
-  //   scores[0] = scores[0] + roundScore;
-  // } else {
-  //   scores[1] = scores[1] + roundScore;
-  // }
-
   scores[activePlayer] = scores[activePlayer] + roundScore;
 
-  // уг тоглогч хожсон эсэхийг (оноо нь 100-с эх эсэх) шалгах
+  //   дэлгэц дээр оноог нь өөрчилнө.
   document.getElementById("score-" + activePlayer).textContent =
     scores[activePlayer];
-  // Ээлжийн оноог нь 0 болгоно.
-
-  roundScore = 0;
-  document.getElementById("current-" + activePlayer).textContent = 0;
-  // Тоглогчийн ээлжийг солино.
-  switchToNextPlayer();
 
   if (scores[activePlayer] >= 20) {
     document.getElementById("name-" + activePlayer).textContent = "Winner!!!";
+    document
+      .querySelector(".player-" + activePlayer + "-panel")
+      .classList.add("winner");
+    document
+      .querySelector(".player-" + activePlayer + "-panel")
+      .classList.remove("active");
   } else {
     switchToNextPlayer();
   }
-  // дэлгэц дээр оноог нь өөрчилнө.
 });
 
 function switchToNextPlayer() {
