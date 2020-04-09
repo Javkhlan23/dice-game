@@ -93,7 +93,7 @@ document.querySelector(".btn-hold").addEventListener("click", function () {
       // тоглоомыг дууссан төлөвт оруулна.
       isNewGame = false;
       // Ялагч гэсэн текстийг нэрнийх нь оронд гаргана
-      document.getElementById("name-" + activePlayer).textContent = "WINNER!!!";
+      document.getElementById("name-" + activePlayer).textContent = "ЯЛАГЧ!!!";
       document
         .querySelector(".player-" + activePlayer + "-panel")
         .classList.add("winner");
