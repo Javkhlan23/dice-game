@@ -1,4 +1,5 @@
 // Тоглоомын бүх газарт ашиглагдах глобаль хувьсагчдыг энд зарлая
+var isNewGame;
 // Аль тоглогч шоо шидэх вэ гэдгийг энд хадгална.
 var activePlayer;
 //  2 тоглогчийн цуглуулсан оноонууд
@@ -14,6 +15,8 @@ initGame();
 
 // тоглоомыг шинээр эхлэхэд бэлтгэнэ.
 function initGame() {
+  // Тоглоом эхэллээ гэдэг төлөвт оруулна.
+  isNewGame = true;
   // Тоглогчийн ээлжийг хадаглах хувьсагч, нэгдүгээр тоглогчийг 0, хоёрдугаар тоглогчийг 1 гэж тэмдэглэе
   activePlayer = 0;
 
@@ -46,51 +49,65 @@ function initGame() {
 document
   .querySelector(".btn-roll")
   .addEventListener("click", function shooShid() {
-    //  1 - 6 доторх санамсаргүй нэг тоог гаргаж авна
-    var diceNumber = Math.floor(Math.random() * 6) + 1;
+    if (isNewGame) {
+      //  1 - 6 доторх санамсаргүй нэг тоог гаргаж авна
+      var diceNumber = Math.floor(Math.random() * 6) + 1;
 
-    //   шооны зургийг вэб дээр гаргаж ирнэ
-    diceDom.style.display = "block";
+      //   шооны зургийг вэб дээр гаргаж ирнэ
+      diceDom.style.display = "block";
 
-    // буусан санамсаргүй тоонд харгалзах шооны зургийг вэб дээр гаргаж ирнэ
-    diceDom.src = "dice-" + diceNumber + ".png";
+      // буусан санамсаргүй тоонд харгалзах шооны зургийг вэб дээр гаргаж ирнэ
+      diceDom.src = "dice-" + diceNumber + ".png";
 
-    // Буусан тоо нь 1 ээс ялгаатай бол идэвхтэй тоглогчийн ээлжийн оноог нэмэгдүүлнэ.
+      // Буусан тоо нь 1 ээс ялгаатай бол идэвхтэй тоглогчийн ээлжийн оноог нэмэгдүүлнэ.
 
-    if (diceNumber !== 1) {
-      // 1-ээс ялгаатай тоо буулаа. буусан тоог тоглогчид нэмж өгнө
-      roundScore = roundScore + diceNumber;
-      document.getElementById(
-        "current-" + activePlayer
-      ).textContent = roundScore;
+      if (diceNumber !== 1) {
+        // 1-ээс ялгаатай тоо буулаа. буусан тоог тоглогчид нэмж өгнө
+        roundScore = roundScore + diceNumber;
+        document.getElementById(
+          "current-" + activePlayer
+        ).textContent = roundScore;
+      } else {
+        // 1 буусан тул тоглогчин ээлжийг энэ хэсэгт сольж өгнө
+
+        switchToNextPlayer();
+      }
     } else {
-      // 1 буусан тул тоглогчин ээлжийг энэ хэсэгт сольж өгнө
-
-      switchToNextPlayer();
+      alert(
+        "Тоглоом дууслаа өлөгчингүүдээ. Хараал идсэн тоглоомоо эхнээс нь тогло"
+      );
     }
   });
 
 // HOLD товчны эвент листенер
 roundScore = 0;
 document.querySelector(".btn-hold").addEventListener("click", function () {
-  scores[activePlayer] = scores[activePlayer] + roundScore;
+  if (isNewGame) {
+    scores[activePlayer] = scores[activePlayer] + roundScore;
 
-  //   дэлгэц дээр оноог нь өөрчилнө.
-  document.getElementById("score-" + activePlayer).textContent =
-    scores[activePlayer];
-  // Уг тоглогч хожсон эсэхийг шалгах
-  if (scores[activePlayer] >= 20) {
-    // Ялагч гэсэн текстийг нэрнийх нь оронд гаргана
-    document.getElementById("name-" + activePlayer).textContent = "WINNER!!!";
-    document
-      .querySelector(".player-" + activePlayer + "-panel")
-      .classList.add("winner");
-    document
-      .querySelector(".player-" + activePlayer + "-panel")
-      .classList.remove("active");
+    //   дэлгэц дээр оноог нь өөрчилнө.
+    document.getElementById("score-" + activePlayer).textContent =
+      scores[activePlayer];
+    // Уг тоглогч хожсон эсэхийг шалгах
+    if (scores[activePlayer] >= 20) {
+      // тоглоомыг дууссан төлөвт оруулна.
+      isNewGame = false;
+      // Ялагч гэсэн текстийг нэрнийх нь оронд гаргана
+      document.getElementById("name-" + activePlayer).textContent = "WINNER!!!";
+      document
+        .querySelector(".player-" + activePlayer + "-panel")
+        .classList.add("winner");
+      document
+        .querySelector(".player-" + activePlayer + "-panel")
+        .classList.remove("active");
+    } else {
+      // тоглогчийн ээлжийг солино.
+      switchToNextPlayer();
+    }
   } else {
-    // тоглогчийн ээлжийг солино.
-    switchToNextPlayer();
+    alert(
+      "Тоглоом дууслаа өлөгчингүүдээ. Хараал идсэн тоглоомоо эхнээс нь тогло"
+    );
   }
 });
 // тоглогчийн ээлжийг солино.
